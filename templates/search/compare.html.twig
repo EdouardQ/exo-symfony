@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="players-data" data="{{ playersParameters }}">
+        <select id="season-selector">
+            <option>-Année-</option>
+            {% for year in 1779..date() | date('Y') %}
+                <option value="{{ year }}">{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <div>
+            <table id="data-table" class="display">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Parties jouées</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for id, name in playersName %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td id="{{ id }}" class="td-data">0</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable();
+        } );
+    </script>
+    <script src="{{ asset('js/balldontlieCompare.js') }}"></script>
+{% endblock %}

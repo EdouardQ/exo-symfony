@@ -2,18 +2,25 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>Exo Symfony{% block title %}{% endblock %}</title>
+        <link href="{{ asset('img/favicon.ico') }}" rel="icon" type="image/ico">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+        {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        {% include 'inc/nav.html.twig' %}
+        <br>
         {% block body %}{% endblock %}
+
+        <scritp src="{{ asset('js/bootstrap.min.js') }}"></scritp>
+        {% block javascripts %}{% endblock %}
     </body>
 </html>
