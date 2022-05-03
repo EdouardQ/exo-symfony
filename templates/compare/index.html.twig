@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section id="players-data" data="{{ data.parameters }}">
+        <div class="m-auto text-center">
+            <p class="d-inline-block">Sélectionner une année : </p>
+            <select id="season-selector" class="d-inline-block">
+                <option>-Année-</option>
+                {% for year in date() | date('Y') .. 1979 %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <table id="data-table" class="display">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Parties jouées</th>
+                    <th>Mins</th>
+                    <th>Pts</th>
+                    {% if 'history' not in app.request.uri %}
+                        <th><a href="{{ url('compare.purge') }}" class="btn btn-danger">Tout retirer</a></th>
+                    {% endif %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for id, name in data.names %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td id="g{{ id }}" class="td-data">0</td>
+                        <td id="t{{ id }}" class="td-data">0</td>
+                        <td id="pts{{ id }}" class="td-data">0</td>
+                        {% if 'history' not in app.request.uri %}
+                            <td><a href="{{ url('compare.remove', {id: id}) }}" class="btn btn-danger">Retirer</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable();
+        } );
+    </script>
+    <script src="{{ asset('js/balldontlieCompare.js') }}"></script>
+{% endblock %}
