@@ -1,4 +1,4 @@
-# Exo Symfony App
+# Exo Symfony
 
 ### Description
 
