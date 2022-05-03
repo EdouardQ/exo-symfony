@@ -1,5 +1,10 @@
-### TODO
+# Exo Symfony App
 
-historique
+### Description
 
-créer des services pour soulager les controllers
+Website qui permet de rechercher n'importe quel joueur de NBA depuis 1979 <br>
+et qui permet de comparer ceux sélectionnés
+
+### Source
+
+API : <a href="https://www.balldontlie.io/" target="_blank">https://www.balldontlie.io

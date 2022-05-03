@@ -83,7 +83,7 @@ class ComparisonService
     {
         return Cookie::create('comparison')
             ->withValue($this->getComparisonNumber())
-            ->withExpires(time() + 172800) // 48h
+            ->withExpires(time() + 3600) // 1h
             ->withSecure(false)
             ->withHttpOnly(false)
             ;

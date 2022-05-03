@@ -2,13 +2,15 @@
 
 {% block body %}
     <section id="players-data" data="{{ data.parameters }}">
-        <select id="season-selector">
-            <option>-Année-</option>
-            {% for year in date() | date('Y') .. 1779 %}
-                <option value="{{ year }}">{{ year }}</option>
-            {% endfor %}
-        </select>
-
+        <div class="m-auto text-center">
+            <p class="d-inline-block">Sélectionner une année : </p>
+            <select id="season-selector" class="d-inline-block">
+                <option>-Année-</option>
+                {% for year in date() | date('Y') .. 1979 %}
+                    <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div>
             <table id="data-table" class="display">
                 <thead>
