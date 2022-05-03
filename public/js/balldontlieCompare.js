@@ -9,8 +9,9 @@ jQuery(document).ready(function() {
             success: function (msg) {
                 var result = msg.data;
                 result.forEach(function (value) {
-                    $('#'+(value.player_id).toString()).html((value.games_played).toString());
-
+                    $('#g'+(value.player_id).toString()).html((value.games_played).toString());
+                    $('#t'+(value.player_id).toString()).html((value.min).toString());
+                    $('#pts'+(value.player_id).toString()).html((value.pts).toString());
                 })
             },
         })

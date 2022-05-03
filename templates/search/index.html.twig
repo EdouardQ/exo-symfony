@@ -2,29 +2,26 @@
 
 {% block body %}
     <section>
-        <form action="/compare" method="post" >
-            <input type="submit" value="Envoyer">
-            <table class="display w-100">
-                <thead>
-                    <tr>
-                        <th>Prénom</th>
-                        <th>Nom</th>
-                        <th>Équipe</th>
-                        <th>Sélection</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for player in data %}
-                    <tr>
-                        <td>{{ player.first_name }}</td>
-                        <td>{{ player.last_name }}</td>
-                        <td>{{ player.team.name }}
-                        <td><input type="checkbox" name="checkboxArray[{{ player.first_name ~ ' ' ~ player.last_name }}]" value="{{ player.id }}"></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </form>
+        <table class="display w-100">
+            <thead>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Équipe</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for player in data %}
+                <tr>
+                    <td>{{ player.first_name }}</td>
+                    <td>{{ player.last_name }}</td>
+                    <td>{{ player.team.name }}</td>
+                    <td class="td-add-player"><a href="{{ url('search.add', { id: player.id, name: player.first_name ~ ' ' ~ player.last_name }) }}">Ajouter à la comparaison</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </section>
 {% endblock %}
 
@@ -32,6 +29,6 @@
 <script>
     $(document).ready(function() {
         $('table.display').DataTable();
-    } );
+    });
 </script>
 {% endblock %}

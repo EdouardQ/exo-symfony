@@ -17,12 +17,12 @@ class SearchFormType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => "Veuillez saisir un mot clef."
+                        'message' => "Veuillez saisir un seul mot clef."
                     ]),
                     new Regex([
                         'pattern' => '/^[a-zA-Z]+$/',
                         'match' => true,
-                        'message' => "Veuillez saisir un mot clef."
+                        'message' => "Veuillez saisir un seul mot clef."
                     ])
                 ]
             ])

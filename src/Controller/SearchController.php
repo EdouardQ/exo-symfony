@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\SearchFormType;
 use App\Service\BallDontLieService;
+use App\Service\ComparisonService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,15 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SearchController extends AbstractController
 {
-    private BallDontLieService $ballDontLieService;
-
-    public function __construct(BallDontLieService $ballDontLieService)
-    {
-        $this->ballDontLieService = $ballDontLieService;
-    }
-
     #[Route('/search/{keyword}', name: 'search.index')]
-    public function index(string $keyword, Request $request): Response
+    public function index(string $keyword, Request $request, BallDontLieService $ballDontLieService): Response
     {
         $form = $this->createForm(SearchFormType::class);
         $form->handleRequest($request);
@@ -27,7 +21,7 @@ class SearchController extends AbstractController
             return $this->redirectToRoute('search.index', ['keyword' => $form->getData()['keyword']]);
         }
 
-        $response = $this->ballDontLieService->search($keyword);
+        $response = $ballDontLieService->search($keyword);
         $data = json_decode($response, true)['data'];
 
         return $this->render('search/index.html.twig', [
@@ -36,33 +30,13 @@ class SearchController extends AbstractController
         ]);
     }
 
-    #[Route('/compare', name: 'search.compare')]
-    public function compare(Request $request): Response
+    #[Route('/add/{id}/{name}', name: 'search.add')]
+    public function add(int $id, string $name, ComparisonService $comparisonService, Request $request): Response
     {
-        if (!$request->request->has('checkboxArray') || count($request->request->all()['checkboxArray']) == 1) {
-            // if no form is submitted or no comparison is done  => redirect to the previous page
-            return $this->redirect($request->headers->get('referer'));
-        }
-
-        $form = $this->createForm(SearchFormType::class);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            return $this->redirectToRoute('search.index', ['keyword' => $form->getData()['keyword']]);
-        }
-
-        $playersName = [];
-        $playersParameters = "";
-        foreach ($request->request->all()['checkboxArray'] as $playerName => $playerId) {
-            $playersName[$playerId] = $playerName;
-            $playersParameters = $playersParameters . "&player_ids[]=" . $playerId;
-        }
-        // order the array by key
-        ksort($playersName);
-
-        return $this->render('search/compare.html.twig', [
-            'form' => $form->createView(),
-            'playersParameters' => $playersParameters,
-            'playersName' => $playersName
-        ]);
+        $comparisonService->addPlayerToComparison($id, $name);
+        // redirect to the previous research and update cookie
+        $response = $this->redirect($request->headers->get('referer'));
+        $response->headers->setCookie($comparisonService->getComparisonNumberCookie());
+        return $response;
     }
 }

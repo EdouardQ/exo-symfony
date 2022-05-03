@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <section>
+        <table class="display w-100">
+            <thead>
+            <tr>
+                <th>Joueurs comparés</th>
+                <th>Date</th>
+                <th>Accéder</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for data in history %}
+                <tr>
+                    <td>
+                        {% for name in data.data.names %}
+                            {{ name }}
+                            {% if not loop.last %}
+                                -
+                            {% endif%}
+                        {% endfor %}
+                    </td>
+                    <td>{{ data.createdAt | date('d-m-Y') }}</td>
+                    <td><a href="{{ url('compare.compare_from_history', {id: data.id}) }}">Comparer</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(document).ready(function() {
+            $('table.display').DataTable();
+        });
+    </script>
+{% endblock %}

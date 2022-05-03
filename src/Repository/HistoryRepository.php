@@ -47,6 +47,16 @@ class HistoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function getHistoryFromSession(string $sessionId)
+    {
+        return $this->createQueryBuilder('h')
+            ->andWhere('h.sessionId = :value')
+            ->setParameter('value', $sessionId)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return History[] Returns an array of History objects
     //  */
