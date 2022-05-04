@@ -25,6 +25,7 @@ class ComparisonService
         $comparisonArray = $this->getSession()->get('compare');
 
         if (!$comparisonArray) {
+            $comparisonArray = [];
             $this->getSession()->set('compare', $comparisonArray);
         }
 
